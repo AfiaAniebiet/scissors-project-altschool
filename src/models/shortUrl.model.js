@@ -7,11 +7,11 @@ const urlSchema = new Schema(
       type: String,
       required: true,
     },
-    shortUrl: {
+    shortID: {
       type: String,
       required: true,
     },
-    customUrl: {
+    shortUrl: {
       type: String,
       required: true,
       unique: true,
