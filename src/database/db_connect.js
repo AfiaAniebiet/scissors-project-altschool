@@ -5,9 +5,12 @@ const mongoDB_connection = async function () {
   mongoose.set('strictQuery', false);
 
   const MONGO_URI = config.get('MONGO_URI');
+  const dbName = config.get('dbName');
 
   await mongoose
-    .connect(MONGO_URI)
+    .connect(MONGO_URI, {
+      dbName,
+    })
     .then((result) => {
       console.log('Connection to mongoDB established successfully.');
     })
