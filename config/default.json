@@ -1,5 +1,6 @@
 {
   "PORT": 4000,
-  "MONGO_URI": "mongodb://127.0.0.1:27017/url-shortener",
+  "MONGO_URI": "mongodb://127.0.0.1:27017/",
+  "dbName": "url-shortener",
   "baseUrl": "http://localhost:4000"
 }
