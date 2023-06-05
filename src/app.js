@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, './', 'public')));
 
+// Define routes
 app.use(shortUrlRoute);
 
 module.exports = app;
