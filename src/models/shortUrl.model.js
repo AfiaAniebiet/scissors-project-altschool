@@ -7,7 +7,7 @@ const urlSchema = new Schema(
       type: String,
       required: true,
     },
-    shortID: {
+    urlCode: {
       type: String,
       required: true,
     },
