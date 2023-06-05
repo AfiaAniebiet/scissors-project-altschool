@@ -1,4 +1,4 @@
-const ShortUrl = require('../models/shortUrl.model');
+const ShortUrlSchema = require('../models/shortUrl.model');
 const shortID = require('shortid');
 const validUrl = require('valid-url');
 const config = require('config');
@@ -21,14 +21,14 @@ const makeShortUrl = async (req, res) => {
 
   // check the long url from req.body
   if (validUrl.isUri(longUrl)) {
-    let url = await ShortUrl.findOne({ longUrl });
+    let url = await ShortUrlSchema.findOne({ longUrl });
 
     if (url) {
       res.json(url);
     } else {
       const shortUrl = `${baseUrl}/${urlCode}`;
 
-      url = new ShortUrl({
+      url = new ShortUrlSchema({
         longUrl,
         urlCode,
         shortUrl,
@@ -43,7 +43,18 @@ const makeShortUrl = async (req, res) => {
   }
 };
 
+const shortUrlRedirect = async function (req, res) {
+  const url = await ShortUrlSchema.findOne({ urlCode: req.params.code });
+
+  if (!url) {
+    return res.status(StatusCodes.NOT_FOUND).json('No url found.');
+  }
+
+  return res.redirect(url.longUrl);
+};
+
 module.exports = {
   getIndexPage,
   makeShortUrl,
+  shortUrlRedirect,
 };
