@@ -16,6 +16,10 @@ const urlSchema = new Schema(
       required: true,
       unique: true,
     },
+    visits: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
