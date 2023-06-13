@@ -1,6 +1,7 @@
 const http = require('http');
 const app = require('./app');
 const config = require('config');
+const Cache = require('../config/redis_connect');
 
 const mongoDB_connection = require('./database/db_connect');
 
@@ -10,8 +11,12 @@ const PORT = config.get('PORT');
 const server = http.createServer(app);
 
 // connect to database and start server
-function startServer() {
-  mongoDB_connection();
+async function startServer() {
+  // connection to mongodb database
+  await mongoDB_connection();
+
+  // connection to redis
+  Cache.connect();
   server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 }
 startServer();
