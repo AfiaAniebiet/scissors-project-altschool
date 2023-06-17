@@ -5,10 +5,17 @@ const config = require('config');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const Cache = require('../../config/redis_connect');
-const { cache } = require('ejs');
 
-const getIndexPage = function (req, res) {
-  res.send('Index Page');
+const getRandomURLPage = function (req, res) {
+  res.render('random-url', {
+    page_title: 'Random URL',
+  });
+};
+
+const getCustomURLPage = function (req, res) {
+  res.render('custom-url', {
+    page_title: 'Custom URL',
+  });
 };
 
 // algorithm to generate short url using shortid package
@@ -64,7 +71,7 @@ const generateCustomUrl = async (req, res) => {
   // check if customCode exists in database
   let url = await ShortUrlSchema.findOne({ urlCode: code });
   if (url) {
-    throw new CustomError.BadRequestError(`Custom Url ${url.urlCode} already exists. `);
+    throw new CustomError.BadRequestError(`Custom Url code ${url.urlCode} already exists. `);
   }
 
   const shortUrl = `${baseUrl}/${code}`;
@@ -77,7 +84,10 @@ const generateCustomUrl = async (req, res) => {
 
   await url.save();
 
-  res.status(StatusCodes.OK).json({ url });
+  res.render('post-custom-url', {
+    page_title: 'Custom URL',
+    display_url: `${url.shortUrl}`,
+  });
 };
 
 // function to redirect generated short url to the long url
@@ -108,7 +118,8 @@ const shortUrlRedirect = async function (req, res) {
 };
 
 module.exports = {
-  getIndexPage,
+  getRandomURLPage,
+  getCustomURLPage,
   makeShortUrl,
   generateCustomUrl,
   shortUrlRedirect,
