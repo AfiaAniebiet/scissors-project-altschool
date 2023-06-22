@@ -1,10 +1,10 @@
 const ShortUrlSchema = require('../models/shortUrl.model');
 const shortID = require('shortid');
 const validUrl = require('valid-url');
-const config = require('config');
+// const config = require('config');
 const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
-const Cache = require('../../config/redis_connect');
+const Cache = require('../database/redis_connect');
 
 const getRandomURLPage = function (req, res) {
   res.render('random-url', {
@@ -21,7 +21,8 @@ const getCustomURLPage = function (req, res) {
 // algorithm to generate short url using shortid package
 const makeShortUrl = async (req, res) => {
   const { longUrl } = req.body;
-  const baseUrl = config.get('baseUrl');
+  // const baseUrl = config.get('baseUrl');
+  const baseUrl = process.env.baseUrl;
 
   if (!validUrl.isUri(baseUrl)) {
     throw new CustomError.NotFoundError('This url is invalid. Try another one.');
@@ -57,7 +58,8 @@ const makeShortUrl = async (req, res) => {
 // algorithm to create custom url
 const generateCustomUrl = async (req, res) => {
   const { longUrl, code } = req.body;
-  const baseUrl = config.get('baseUrl');
+  // const baseUrl = config.get('baseUrl');
+  const baseUrl = process.env.baseUrl;
 
   if (!validUrl.isUri(baseUrl)) {
     throw new CustomError.NotFoundError('Oops! This url does not exist.');

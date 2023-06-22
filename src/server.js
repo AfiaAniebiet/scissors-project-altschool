@@ -1,12 +1,14 @@
 const http = require('http');
+require('dotenv').config();
 const app = require('./app');
-const config = require('config');
-const Cache = require('../config/redis_connect');
+// const config = require('config');
+const Cache = require('./database/redis_connect');
 // const { redisConnection } = require('../config/redis_connect');
 
 const mongoDB_connection = require('./database/db_connect');
 
-const PORT = config.get('PORT');
+// const PORT = config.get('PORT');
+const PORT = process.env.PORT || 8000;
 
 // creating the server using the app object
 const server = http.createServer(app);

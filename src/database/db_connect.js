@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
-const config = require('config');
+// const config = require('config');
 
 const mongoDB_connection = async function () {
   mongoose.set('strictQuery', false);
 
-  const MONGO_URI = config.get('MONGO_URI');
-  const dbName = config.get('dbName');
+  // const MONGO_URI = config.get('MONGO_URI');
+  const MONGO_URI = process.env.MONGO_URI;
+  const dbName = process.env.dbName;
+  // const dbName = config.get('dbName');
 
   await mongoose
     .connect(MONGO_URI, {
