@@ -1,4 +1,5 @@
 const Redis = require('redis');
+require('dotenv').config();
 // const config = require('config');
 
 const REDIS_USERNAME = process.env.REDIS_USERNAME;
