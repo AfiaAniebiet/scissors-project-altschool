@@ -97,6 +97,7 @@ const shortUrlRedirect = async function (req, res) {
   const cacheKey = `urlCode: ${code}`;
 
   const cachedUrl = await Cache.redis.get(cacheKey);
+  // const cachedUrl = await client.get(cacheKey);
 
   if (cachedUrl) {
     return res.redirect(cachedUrl);
@@ -106,6 +107,7 @@ const shortUrlRedirect = async function (req, res) {
 
   // cache miss
   Cache.redis.set(cacheKey, url.longUrl);
+  // client.set(cacheKey, url.longUrl);
 
   if (!url) {
     throw new CustomError.NotFoundError('The url does not exist.');
