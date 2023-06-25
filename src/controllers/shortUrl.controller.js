@@ -1,10 +1,15 @@
 const ShortUrlSchema = require('../models/shortUrl.model');
 const shortID = require('shortid');
 const validUrl = require('valid-url');
-// const config = require('config');
-const { StatusCodes } = require('http-status-codes');
 const CustomError = require('../errors');
 const Cache = require('../database/redis_connect');
+const qrcode = require('qrcode');
+
+const getIndexPage = function (req, res) {
+  res.render('index', {
+    page_title: 'Scissors App',
+  });
+};
 
 const getRandomURLPage = function (req, res) {
   res.render('random-url', {
@@ -18,10 +23,18 @@ const getCustomURLPage = function (req, res) {
   });
 };
 
+// Fetch all shortened URLs
+const fetchURLs = (req, res) => {
+  const urls = ShortUrlSchema.find({});
+  res.render('custom-url', {
+    page_title: 'Custom URL',
+    urls,
+  });
+};
+
 // algorithm to generate short url using shortid package
 const makeShortUrl = async (req, res) => {
   const { longUrl } = req.body;
-  // const baseUrl = config.get('baseUrl');
   const baseUrl = process.env.baseUrl;
 
   if (!validUrl.isUri(baseUrl)) {
@@ -36,7 +49,8 @@ const makeShortUrl = async (req, res) => {
     let url = await ShortUrlSchema.findOne({ longUrl });
 
     if (url) {
-      res.json(url);
+      // res.json(url);
+      throw new CustomError.BadRequestError('This url exists already.');
     } else {
       const shortUrl = `${baseUrl}/${urlCode}`;
 
@@ -48,7 +62,16 @@ const makeShortUrl = async (req, res) => {
 
       await url.save();
 
-      res.status(StatusCodes.OK).json({ url });
+      qrcode.toDataURL(shortUrl, (err, data) => {
+        if (err) {
+          return;
+        }
+        res.render('post-random-url', {
+          page_title: 'Random URL',
+          display_url: `${url.shortUrl}`,
+          data,
+        });
+      });
     }
   } else {
     throw new CustomError.NotFoundError('The long URL does not exist.');
@@ -58,7 +81,6 @@ const makeShortUrl = async (req, res) => {
 // algorithm to create custom url
 const generateCustomUrl = async (req, res) => {
   const { longUrl, code } = req.body;
-  // const baseUrl = config.get('baseUrl');
   const baseUrl = process.env.baseUrl;
 
   if (!validUrl.isUri(baseUrl)) {
@@ -86,9 +108,15 @@ const generateCustomUrl = async (req, res) => {
 
   await url.save();
 
-  res.render('post-custom-url', {
-    page_title: 'Custom URL',
-    display_url: `${url.shortUrl}`,
+  qrcode.toDataURL(shortUrl, (err, data) => {
+    if (err) {
+      return;
+    }
+    res.render('post-custom-url', {
+      page_title: 'Custom URL',
+      display_url: `${url.shortUrl}`,
+      data,
+    });
   });
 };
 
@@ -99,7 +127,6 @@ const shortUrlRedirect = async function (req, res) {
   const cacheKey = `urlCode: ${code}`;
 
   const cachedUrl = await Cache.redis.get(cacheKey);
-  // const cachedUrl = await client.get(cacheKey);
 
   if (cachedUrl) {
     return res.redirect(cachedUrl);
@@ -109,7 +136,6 @@ const shortUrlRedirect = async function (req, res) {
 
   // cache miss
   Cache.redis.set(cacheKey, url.longUrl);
-  // client.set(cacheKey, url.longUrl);
 
   if (!url) {
     throw new CustomError.NotFoundError('The url does not exist.');
@@ -122,8 +148,10 @@ const shortUrlRedirect = async function (req, res) {
 };
 
 module.exports = {
+  getIndexPage,
   getRandomURLPage,
   getCustomURLPage,
+  fetchURLs,
   makeShortUrl,
   generateCustomUrl,
   shortUrlRedirect,
