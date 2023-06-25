@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 require('express-async-errors');
-const helmet = requier('helmet');
+const helmet = require('helmet');
 
 const shortUrlRoute = require('./routes/shortUrl.route');
 
