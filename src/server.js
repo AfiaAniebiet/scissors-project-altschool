@@ -5,7 +5,6 @@ require('dotenv').config();
 
 const mongoDB_connection = require('./database/db_connect');
 
-// const PORT = config.get('PORT');
 const PORT = process.env.PORT || 8000;
 
 // creating the server using the app object
