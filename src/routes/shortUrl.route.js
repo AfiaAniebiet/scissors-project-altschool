@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
+  getIndexPage,
   getRandomURLPage,
   getCustomURLPage,
   makeShortUrl,
@@ -9,6 +10,7 @@ const {
   generateCustomUrl,
 } = require('../controllers/shortUrl.controller');
 
+router.get('/', getIndexPage);
 router.get('/random-url', getRandomURLPage);
 router.get('/custom-url', getCustomURLPage);
 router.post('/short-url', makeShortUrl);
