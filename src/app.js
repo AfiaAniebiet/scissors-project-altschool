@@ -3,8 +3,11 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 require('express-async-errors');
+const helmet = requier('helmet');
 
 const shortUrlRoute = require('./routes/shortUrl.route');
+
+app.set('trust proxy', 1);
 
 // error Handling
 const errorHandlerMiddleware = require('./middlewares/errorHandler.middleware');
@@ -13,6 +16,7 @@ const notFoundMiddleware = require('./middlewares/not-found');
 const app = express();
 
 // middlewares
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
