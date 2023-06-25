@@ -8,4 +8,16 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+a {
+  text-decoration: none;
+  background: rgb(4, 124, 124);
+  color: #fff;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
 }
