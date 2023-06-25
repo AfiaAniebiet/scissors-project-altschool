@@ -7,13 +7,13 @@ const helmet = require('helmet');
 
 const shortUrlRoute = require('./routes/shortUrl.route');
 
-app.set('trust proxy', 1);
-
 // error Handling
 const errorHandlerMiddleware = require('./middlewares/errorHandler.middleware');
 const notFoundMiddleware = require('./middlewares/not-found');
 
 const app = express();
+
+app.set('trust proxy', 1);
 
 // middlewares
 app.use(helmet());
