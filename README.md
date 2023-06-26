@@ -27,4 +27,6 @@ Brief is the new black, this is what inspires the team at Scissor. In today’s 
 - Install Nodejs
 - Open the terminal on your computer.
 - Clone the project to your local computer.
-  `git clone https://github.com/AfiaAniebiet/scissors-project-altschool.git`
+  `sh 
+git clone https://github.com/AfiaAniebiet/scissors-project-altschool.git
+`
