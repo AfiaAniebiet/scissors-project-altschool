@@ -21,16 +21,14 @@
       <table>
         <tr>
           <td>Short Url</td>
-          <td>BarCode</td>
           <td>Views</td>
         </tr>
-        <% for (const short of short_url) { %>
+        <% for (const url of urls) {%>
         <tr>
-          <td><%= short %></td>
-          <td><%= data %></td>
-          <td><%= views %></td>
+          <td><a href="<%= url.shortUrl %>" target="_blank"><%= url.shortUrl %></a></td>
+          <td><%= url.visits %></td>
         </tr>
-        <% } %>
+        <%} %>
       </table>
     </div>
   </body>
