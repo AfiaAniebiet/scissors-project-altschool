@@ -26,9 +26,19 @@ const getCustomURLPage = function (req, res) {
 // Fetch all shortened URLs
 const fetchURLs = (req, res) => {
   const urls = ShortUrlSchema.find({});
-  res.render('custom-url', {
-    page_title: 'Custom URL',
-    urls,
+
+  const shortUrl = urls.shortUrl;
+
+  qrcode.toDataURL(shortUrl, (err, data) => {
+    if (err) {
+      return;
+    }
+    res.render('index-url', {
+      page_title: 'Custom URL',
+      short_url: urls.shortUrl,
+      data,
+      views: urls.visits,
+    });
   });
 };
 
