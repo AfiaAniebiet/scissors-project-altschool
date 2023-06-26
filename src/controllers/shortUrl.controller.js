@@ -24,21 +24,12 @@ const getCustomURLPage = function (req, res) {
 };
 
 // Fetch all shortened URLs
-const fetchURLs = (req, res) => {
-  const urls = ShortUrlSchema.find({});
+const fetchURLs = async (req, res) => {
+  const urls = await ShortUrlSchema.find({});
 
-  const shortUrl = urls.shortUrl;
-
-  qrcode.toDataURL(shortUrl, (err, data) => {
-    if (err) {
-      return;
-    }
-    res.render('index-url', {
-      page_title: 'Custom URL',
-      short_url: urls.shortUrl,
-      data,
-      views: urls.visits,
-    });
+  res.render('index-url', {
+    page_title: 'Fetch URL',
+    urls,
   });
 };
 
