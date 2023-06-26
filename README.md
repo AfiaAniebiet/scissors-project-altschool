@@ -21,3 +21,10 @@ Brief is the new black, this is what inspires the team at Scissor. In today’s 
 >   Scissor provides basic analytics that allow users to track their shortened URL's performance.
 >   Users can see how many clicks their shortened URL has received and where the clicks are
 >   coming from. We need to track when a URL is used.
+
+## Setup
+
+- Install Nodejs
+- Open the terminal on your computer.
+- Clone the project to your local computer.
+  `git clone https://github.com/AfiaAniebiet/scissors-project-altschool.git`
