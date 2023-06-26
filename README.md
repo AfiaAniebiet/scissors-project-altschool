@@ -5,9 +5,10 @@ Brief is the new black, this is what inspires the team at Scissor. In today’s 
 ## Requirements and Implementation
 
 > - URL Shortening
->   Scissor allows users to shorten URLs by pasting a long URL into the Scissor platform and a
->   shorter URL gets automatically generated. The shortened URL is designed to be as short as
->   possible, making it easy to share on social media or through other channels.
+
+ <p>Scissor allows users to shorten URLs by pasting a long URL into the Scissor platform and a
+shorter URL gets automatically generated. The shortened URL is designed to be as short as
+ possible, making it easy to share on social media or through other channels.</p>
 > - Custom URLs
 >   Scissor also allows users to customize their shortened URLs. Users can choose their own
 >   custom domain name and customize the URL to reflect their brand or content. This feature is
